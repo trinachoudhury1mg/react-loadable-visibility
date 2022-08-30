@@ -16,7 +16,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 var trackedElements = new Map();
 var options = {
   threshold: 0,
-  rootMargin: "0px 0px 100% 0px"
+  rootMargin: "0px 0px 500px 0px"
 };
 
 function createIntersectionObserver(intersectionObserverOptions) {
@@ -94,28 +94,28 @@ function createLoadableVisibilityComponent(args, _ref) {
     }
 
     if (LoadingComponent || props.fallback) {
-      return /*#__PURE__*/_react["default"].createElement("div", _extends({
+      return /*#__PURE__*/_react["default"].createElement("div", {
         style: {
           display: "inline-block",
           minHeight: "1px",
           minWidth: "1px"
-        }
-      }, props, {
+        } // {...props}
+        ,
         ref: visibilityElementRef
-      }), LoadingComponent ? /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
+      }, LoadingComponent ? /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
         isLoading: true
       }, props)) : props.fallback);
     }
 
-    return /*#__PURE__*/_react["default"].createElement("div", _extends({
+    return /*#__PURE__*/_react["default"].createElement("div", {
       style: {
         display: "inline-block",
         minHeight: "1px",
         minWidth: "1px"
-      }
-    }, props, {
+      } // {...props}
+      ,
       ref: visibilityElementRef
-    }));
+    });
   }
 
   LoadableVisibilityComponent[preloadFunc] = function () {
