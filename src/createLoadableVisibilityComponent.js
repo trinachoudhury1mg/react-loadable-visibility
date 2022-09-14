@@ -5,7 +5,7 @@ const trackedElements = new Map();
 
 let options = {
   threshold: 0,
-  rootMargin: "0px 0px 500px 0px",
+  rootMargin: "0px 0px 100% 0px",
 };
 
 function createIntersectionObserver(intersectionObserverOptions) {
