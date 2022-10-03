@@ -16,7 +16,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 var trackedElements = new Map();
 var options = {
   threshold: 0,
-  rootMargin: "0px 0px 500px 0px"
+  rootMargin: "0px 0px 100% 0px"
 };
 
 function createIntersectionObserver(intersectionObserverOptions) {
