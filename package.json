@@ -1,6 +1,6 @@
 {
   "name": "react-loadable-visibility",
-  "version": "3.0.2",
+  "version": "4.0.2",
   "description": "A wrapper around react-loadable for elements that are visible on the page",
   "main": "index.js",
   "repository": "https://github.com/stratiformltd/react-loadable-visibility",
