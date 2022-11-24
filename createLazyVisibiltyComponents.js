@@ -36,10 +36,8 @@ function createIntersectionObserver(intersectionObserverOptions) {
 
 var intersectionObserver = createIntersectionObserver(options);
 
-function createLoadableVisibilityComponent(args, _ref) {
-  var Loadable = _ref.Loadable,
-      preloadFunc = _ref.preloadFunc,
-      loadFunc = _ref.loadFunc,
+function createLazyVisibiltyComponents(args, _ref) {
+  var Lazy = _ref.Lazy,
       LoadingComponent = _ref.LoadingComponent,
       intersectionObserverOptions = _ref.intersectionObserverOptions;
 
@@ -51,9 +49,9 @@ function createLoadableVisibilityComponent(args, _ref) {
   var preloaded = false,
       loaded = false;
   var visibilityHandlers = [];
-  var LoadableComponent = Loadable.apply(void 0, args);
+  var LazyComponent = Lazy(args.load);
 
-  function LoadableVisibilityComponent(props) {
+  function LazyVisibilityComponent(props) {
     var visibilityElementRef = (0, _react.useRef)();
 
     var _useState = (0, _react.useState)(preloaded),
@@ -90,7 +88,9 @@ function createLoadableVisibilityComponent(args, _ref) {
     }, [isVisible, visibilityElementRef.current]);
 
     if (isVisible) {
-      return /*#__PURE__*/_react["default"].createElement(LoadableComponent, props);
+      return /*#__PURE__*/_react["default"].createElement(_react.Suspense, {
+        fallback: LoadingComponent
+      }, /*#__PURE__*/_react["default"].createElement(LazyComponent, props));
     }
 
     if (LoadingComponent || props.fallback) {
@@ -118,30 +118,8 @@ function createLoadableVisibilityComponent(args, _ref) {
     }));
   }
 
-  LoadableVisibilityComponent[preloadFunc] = function () {
-    if (!preloaded) {
-      preloaded = true;
-      visibilityHandlers.forEach(function (handler) {
-        return handler();
-      });
-    }
-
-    return LoadableComponent[preloadFunc]();
-  };
-
-  LoadableVisibilityComponent[loadFunc] = function () {
-    if (!loaded) {
-      loaded = true;
-      visibilityHandlers.forEach(function (handler) {
-        return handler();
-      });
-    }
-
-    return LoadableComponent[loadFunc]();
-  };
-
-  return LoadableVisibilityComponent;
+  return LazyVisibilityComponent;
 }
 
-var _default = createLoadableVisibilityComponent;
+var _default = LazyVisibilityComponent;
 exports["default"] = _default;
