@@ -49,7 +49,7 @@ function createLazyVisibiltyComponents(args, _ref) {
   var preloaded = false,
       loaded = false;
   var visibilityHandlers = [];
-  var LazyComponent = Lazy(args.load);
+  var LazyComponent = /*#__PURE__*/(0, _react.lazy)(args.load);
 
   function LazyVisibilityComponent(props) {
     var visibilityElementRef = (0, _react.useRef)();
@@ -121,5 +121,5 @@ function createLazyVisibiltyComponents(args, _ref) {
   return LazyVisibilityComponent;
 }
 
-var _default = LazyVisibilityComponent;
+var _default = createLazyVisibiltyComponents;
 exports["default"] = _default;

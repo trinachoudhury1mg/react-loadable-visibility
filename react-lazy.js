@@ -19,13 +19,22 @@ function lazyVisiblity(load, opts, intersectionObserverOptions) {
     opts = {};
   }
 
-  return (0, _createLazyVisibiltyComponents["default"])([load, opts], {
-    Lazy: _React.lazy,
-    LoadingComponent: opts.fallback ? function () {
-      return opts.fallback;
-    } : null,
-    intersectionObserverOptions: intersectionObserverOptions
-  });
+  if (_capacities.IntersectionObserver) {
+    return (0, _createLazyVisibiltyComponents["default"])([load, opts], {
+      Lazy: _React.lazy,
+      LoadingComponent: opts.fallback ? function () {
+        return opts.fallback;
+      } : null,
+      intersectionObserverOptions: intersectionObserverOptions
+    });
+  } else {
+    var _opts;
+
+    var LazyComponent = (0, _React.lazy)(load);
+    return /*#__PURE__*/_react["default"].createElement(Suspense, {
+      fallback: (_opts = opts) == null ? void 0 : _opts.fallback
+    }, /*#__PURE__*/_react["default"].createElement(LazyComponent, null));
+  }
 }
 
 module.exports = lazyVisiblity;

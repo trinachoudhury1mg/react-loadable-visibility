@@ -12,7 +12,7 @@ function lazyVisiblity(load, opts = {}, intersectionObserverOptions) {
       intersectionObserverOptions,
     });
   }
-} else {
+else {
   const LazyComponent = lazy(load);
 
   return( 
@@ -20,6 +20,7 @@ function lazyVisiblity(load, opts = {}, intersectionObserverOptions) {
     <LazyComponent/>
   </Suspense>
   )
+}
 }
 
 module.exports = lazyVisiblity;
