@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, useRef } from "react";
+import React, {lazy, Suspense, useEffect, useState, useRef } from "react";
 import { IntersectionObserver } from "./capacities";
 
 const trackedElements = new Map();
@@ -42,7 +42,7 @@ function createLazyVisibiltyComponents(
     loaded = false;
   const visibilityHandlers = [];
 
-  const LazyComponent = Lazy(args.load);
+  const LazyComponent = lazy(args.load);
 
   function LazyVisibilityComponent(props) {
     const visibilityElementRef = useRef();
@@ -118,4 +118,4 @@ function createLazyVisibiltyComponents(
   return LazyVisibilityComponent;
 }
 
-export default LazyVisibilityComponent;
+export default createLazyVisibiltyComponents;
