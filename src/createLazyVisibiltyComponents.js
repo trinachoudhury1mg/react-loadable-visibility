@@ -29,8 +29,8 @@ function createIntersectionObserver(intersectionObserverOptions) {
 let intersectionObserver = createIntersectionObserver(options);
 
 function createLazyVisibiltyComponents(
-  args,
-  { Lazy, LoadingComponent, intersectionObserverOptions }
+  load,
+  {fallback,LoadingComponent, intersectionObserverOptions }
 ) {
   // if options have been passed to the intersection observer a new instance of intersection observer is created using these passed options else the same instance of intersectin observer will observe all the target elements.
   if (typeof intersectionObserverOptions === "object") {
@@ -42,7 +42,7 @@ function createLazyVisibiltyComponents(
     loaded = false;
   const visibilityHandlers = [];
 
-  const LazyComponent = lazy(args.load);
+  const LazyComponent = lazy(load);
 
   function LazyVisibilityComponent(props) {
     const visibilityElementRef = useRef();
@@ -80,7 +80,7 @@ function createLazyVisibiltyComponents(
     }, [isVisible, visibilityElementRef.current]);
 
     if (isVisible) {
-      return <Suspense fallback={LoadingComponent}><LazyComponent {...props} /></Suspense>
+      return <Suspense fallback={fallback}><LazyComponent {...props} /></Suspense>
     }
 
     if (LoadingComponent || props.fallback) {

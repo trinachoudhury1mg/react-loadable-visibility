@@ -36,8 +36,8 @@ function createIntersectionObserver(intersectionObserverOptions) {
 
 var intersectionObserver = createIntersectionObserver(options);
 
-function createLazyVisibiltyComponents(args, _ref) {
-  var Lazy = _ref.Lazy,
+function createLazyVisibiltyComponents(load, _ref) {
+  var fallback = _ref.fallback,
       LoadingComponent = _ref.LoadingComponent,
       intersectionObserverOptions = _ref.intersectionObserverOptions;
 
@@ -49,7 +49,7 @@ function createLazyVisibiltyComponents(args, _ref) {
   var preloaded = false,
       loaded = false;
   var visibilityHandlers = [];
-  var LazyComponent = /*#__PURE__*/(0, _react.lazy)(args.load);
+  var LazyComponent = /*#__PURE__*/(0, _react.lazy)(load);
 
   function LazyVisibilityComponent(props) {
     var visibilityElementRef = (0, _react.useRef)();
@@ -89,7 +89,7 @@ function createLazyVisibiltyComponents(args, _ref) {
 
     if (isVisible) {
       return /*#__PURE__*/_react["default"].createElement(_react.Suspense, {
-        fallback: LoadingComponent
+        fallback: fallback
       }, /*#__PURE__*/_react["default"].createElement(LazyComponent, props));
     }
 

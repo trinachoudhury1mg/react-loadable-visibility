@@ -14,9 +14,9 @@ return ComponentLazy
 
 function lazyVisiblity(load, opts = {}, intersectionObserverOptions) {
   if (IntersectionObserver) {
-    return createLazyVisibiltyComponents([load, opts], {
-      Lazy: lazy,
-      LoadingComponent: opts.fallback ? () => opts.fallback : null,
+    return createLazyVisibiltyComponents(load, {
+      fallback:opts.fallback,
+      LoadingComponent: opts.fallback ? () => opts.fallback : <div></div>,
       intersectionObserverOptions,
     });
   }

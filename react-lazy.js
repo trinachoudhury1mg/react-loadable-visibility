@@ -28,11 +28,11 @@ function lazyVisiblity(load, opts, intersectionObserverOptions) {
   }
 
   if (_capacities.IntersectionObserver) {
-    return (0, _createLazyVisibiltyComponents["default"])([load, opts], {
-      Lazy: _React.lazy,
+    return (0, _createLazyVisibiltyComponents["default"])(load, {
+      fallback: opts.fallback,
       LoadingComponent: opts.fallback ? function () {
         return opts.fallback;
-      } : null,
+      } : /*#__PURE__*/_react["default"].createElement("div", null),
       intersectionObserverOptions: intersectionObserverOptions
     });
   } else {
