@@ -83,14 +83,13 @@ function createLoadableVisibilityComponent(
       return <LoadableComponent {...props} />;
     }
 
-    if (typeof(LoadingComponent) || props.fallback) {
+    if (LoadingComponent) || props.fallback) {
           {LoadingComponent
             ? React.createElement(LoadingComponent, {
                 isLoading: true,
                 ...props,ref:visibilityElementRef
               })
             : props.fallback}
-      
     }
 
     return (
