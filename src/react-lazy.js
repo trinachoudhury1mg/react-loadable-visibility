@@ -7,7 +7,7 @@ import { IntersectionObserver } from "./capacities";
 function createLazy(load,fallback){
   const LazyComponent = lazy(load);
   function ComponentLazy(props){
-  return(<Suspense fallback={fallback}><LazyComponent {...props} /></Suspense>)
+  return(<Suspense fallback={<div>fallback</div>}><LazyComponent {...props} /></Suspense>)
 }
 return ComponentLazy
 }
@@ -16,7 +16,7 @@ function lazyVisiblity(load, opts = {}, intersectionObserverOptions) {
   if (IntersectionObserver) {
     return createLazyVisibiltyComponents(load, {
       fallback:opts.fallback,
-      LoadingComponent: opts.fallback ? () => opts.fallback : <div></div>,
+      fallback:opts?.fallback?<div>{opts?.fallback}</div>:<div/>
       intersectionObserverOptions,
     });
   }

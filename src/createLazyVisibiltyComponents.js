@@ -85,32 +85,21 @@ function createLazyVisibiltyComponents(
 
     if (LoadingComponent || props.fallback) {
       return (
-        <div
-        style={{
-          display: "inline-block",
-          minHeight: "1px",
-          minWidth: "1px"
-        }}
-        {...props}
-        ref={visibilityElementRef}
-      >
-        {LoadingComponent
-          ? React.createElement(LoadingComponent, {
-              isLoading: true,
-              ...props
-            })
-          : props.fallback}
+      <div ref={visibilityElementRef}>
+          {LoadingComponent
+            ? React.createElement(LoadingComponent, {
+                isLoading: true,
+                ...props
+              })
+            : props.fallback}
       </div>
-      );
+      )
     }
 
     return (
-      <div
-        style={{ display: "inline-block", minHeight: "1px", minWidth: "1px" }}
-        {...props}
-        ref={visibilityElementRef}
-      />
+      <div ref={visibilityElementRef}/>
     );
+  }
   }
 
   
