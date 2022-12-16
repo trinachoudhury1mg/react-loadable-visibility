@@ -13,7 +13,11 @@ function loadableVisiblity(load, opts = {}, intersectionObserverOptions) {
       intersectionObserverOptions,
     });
   } else {
-    return loadable(load, opts);
+    const newOpts={
+      ...opts,
+      fallback:<div>{opts?.fallback}</div>
+    }
+    return loadable(load, newOpts);
   }
 }
 
