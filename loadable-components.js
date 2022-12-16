@@ -32,10 +32,10 @@ function loadableVisiblity(load, opts, intersectionObserverOptions) {
       intersectionObserverOptions: intersectionObserverOptions
     });
   } else {
-    var _opts;
+    var _opts, _opts2;
 
     var newOpts = _extends({}, opts, {
-      fallback: /*#__PURE__*/_react["default"].createElement("div", null, (_opts = opts) == null ? void 0 : _opts.fallback)
+      fallback: (_opts = opts) != null && _opts.fallback ? /*#__PURE__*/_react["default"].createElement("div", null, (_opts2 = opts) == null ? void 0 : _opts2.fallback) : /*#__PURE__*/_react["default"].createElement("div", null)
     });
 
     return (0, _component["default"])(load, newOpts);

@@ -103,15 +103,9 @@ function createLoadableVisibilityComponent(args, _ref) {
       }, props)) : props.fallback);
     }
 
-    return /*#__PURE__*/_react["default"].createElement("div", _extends({
-      style: {
-        display: "inline-block",
-        minHeight: "1px",
-        minWidth: "1px"
-      }
-    }, props, {
+    return /*#__PURE__*/_react["default"].createElement("div", {
       ref: visibilityElementRef
-    }));
+    });
   }
 
   LoadableVisibilityComponent[preloadFunc] = function () {
