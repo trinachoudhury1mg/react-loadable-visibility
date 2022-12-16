@@ -100,7 +100,7 @@ function createLazyVisibiltyComponents(
       <div ref={visibilityElementRef}/>
     );
   }
-  }
+  
 
   
 
