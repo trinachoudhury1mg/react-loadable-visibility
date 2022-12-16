@@ -16,7 +16,7 @@ function lazyVisiblity(load, opts = {}, intersectionObserverOptions) {
   if (IntersectionObserver) {
     return createLazyVisibiltyComponents(load, {
       fallback:opts.fallback,
-      fallback:opts?.fallback?<div>{opts?.fallback}</div>:<div/>
+      fallback:opts?.fallback?<div>{opts?.fallback}</div>:<div/>,
       intersectionObserverOptions,
     });
   }
