@@ -15,7 +15,7 @@ function loadableVisiblity(load, opts = {}, intersectionObserverOptions) {
   } else {
     const newOpts={
       ...opts,
-      fallback:<div>{opts?.fallback}</div>
+      fallback:opts?.fallback?<div>{opts?.fallback}</div>:<div/>
     }
     return loadable(load, newOpts);
   }
