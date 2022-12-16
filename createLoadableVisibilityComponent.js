@@ -54,6 +54,8 @@ function createLoadableVisibilityComponent(args, _ref) {
   var LoadableComponent = Loadable.apply(void 0, args);
 
   function LoadableVisibilityComponent(props) {
+    var _args$;
+
     var visibilityElementRef = (0, _react.useRef)();
 
     var _useState = (0, _react.useState)(preloaded),
@@ -89,20 +91,14 @@ function createLoadableVisibilityComponent(args, _ref) {
       }
     }, [isVisible, visibilityElementRef.current]);
 
-    if (isVisible) {
+    if (isVisible || args != null && (_args$ = args[1]) != null && _args$.ssr) {
       return /*#__PURE__*/_react["default"].createElement(LoadableComponent, props);
     }
 
     if (LoadingComponent || props.fallback) {
-      return /*#__PURE__*/_react["default"].createElement("div", _extends({
-        style: {
-          display: "inline-block",
-          minHeight: "1px",
-          minWidth: "1px"
-        }
-      }, props, {
+      return /*#__PURE__*/_react["default"].createElement("div", {
         ref: visibilityElementRef
-      }), LoadingComponent ? /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
+      }, LoadingComponent ? /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
         isLoading: true
       }, props)) : props.fallback);
     }
