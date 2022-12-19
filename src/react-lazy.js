@@ -1,5 +1,5 @@
 import React from "react";
-import {lazy,Suspense} from "React";
+import {lazy,Suspense} from "react";
 import createLazyVisibiltyComponents from "./createLazyVisibiltyComponents";
 import { IntersectionObserver } from "./capacities";
 
