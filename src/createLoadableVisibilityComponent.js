@@ -80,7 +80,7 @@ function createLoadableVisibilityComponent(
         };
       }
     }, [isVisible, visibilityElementRef.current]);
-console.log(">>>>>",visibleElements,visibleElements.get(path))
+    
     if (isVisible|| args?.[1]?.ssr || visibleElements.get(path)) {
       return <LoadableComponent {...props} />;
     }
