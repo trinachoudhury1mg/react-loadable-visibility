@@ -32,7 +32,7 @@ let intersectionObserver = createIntersectionObserver(options);
 
 function createLoadableVisibilityComponent(
   args,
-  { Loadable, preloadFunc,loadFunc, LoadingComponent, intersectionObserverOptions,path}
+  { Loadable, preloadFunc,loadFunc, LoadingComponent, intersectionObserverOptions}
 ) {
   // if options have been passed to the intersection observer a new instance of intersection observer is created using these passed options else the same instance of intersectin observer will observe all the target elements.
   if (typeof intersectionObserverOptions === "object") {
@@ -45,7 +45,7 @@ function createLoadableVisibilityComponent(
   const visibilityHandlers = [];
 
   const LoadableComponent = Loadable(...args);
-
+  const componentName= args?.[0]?.chunkName()
   function LoadableVisibilityComponent(props) {
     const visibilityElementRef = useRef();
     const [isVisible, setVisible] = useState(preloaded);
@@ -54,7 +54,7 @@ function createLoadableVisibilityComponent(
       if (visibilityElementRef.current) {
         intersectionObserver.unobserve(visibilityElementRef.current);
         trackedElements.delete(visibilityElementRef.current);
-        visibleElements.set(path, true);
+        visibleElements.set(componentName, true);
       }
       setVisible(true);
     }
@@ -80,8 +80,8 @@ function createLoadableVisibilityComponent(
         };
       }
     }, [isVisible, visibilityElementRef.current]);
-    
-    if (isVisible|| args?.[1]?.ssr || visibleElements.get(path)) {
+
+    if (isVisible|| args?.[1]?.ssr || visibleElements.get(componentName)) {
       return <LoadableComponent {...props} />;
     }
 
