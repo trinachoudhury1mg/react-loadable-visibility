@@ -7,7 +7,7 @@ const visibleElements = new Map();
 
 let options = {
   threshold: 0,
-  rootMargin: "0px 0px 100% 0px",
+  rootMargin: "0px 0px 0px 0px",
 };
 
 function createIntersectionObserver(intersectionObserverOptions) {
@@ -80,7 +80,7 @@ function createLoadableVisibilityComponent(
         };
       }
     }, [isVisible, visibilityElementRef.current]);
-
+    console.log(">>>>>",visibleElements)
     if (isVisible|| args?.[1]?.ssr || visibleElements.get(componentName)) {
       return <LoadableComponent {...props} />;
     }

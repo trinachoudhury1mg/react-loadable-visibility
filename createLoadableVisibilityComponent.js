@@ -17,7 +17,7 @@ var trackedElements = new Map();
 var visibleElements = new Map();
 var options = {
   threshold: 0,
-  rootMargin: "0px 0px 100% 0px"
+  rootMargin: "0px 0px 0px 0px"
 };
 
 function createIntersectionObserver(intersectionObserverOptions) {
@@ -95,6 +95,7 @@ function createLoadableVisibilityComponent(args, _ref) {
         };
       }
     }, [isVisible, visibilityElementRef.current]);
+    console.log(">>>>>", visibleElements);
 
     if (isVisible || args != null && (_args$2 = args[1]) != null && _args$2.ssr || visibleElements.get(componentName)) {
       return /*#__PURE__*/_react["default"].createElement(LoadableComponent, props);
