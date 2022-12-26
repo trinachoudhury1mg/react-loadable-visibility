@@ -14,6 +14,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var trackedElements = new Map();
+var visibleElements = new Map();
 var options = {
   threshold: 0,
   rootMargin: "0px 0px 100% 0px"
@@ -37,6 +38,8 @@ function createIntersectionObserver(intersectionObserverOptions) {
 var intersectionObserver = createIntersectionObserver(options);
 
 function createLoadableVisibilityComponent(args, _ref) {
+  var _args$;
+
   var Loadable = _ref.Loadable,
       preloadFunc = _ref.preloadFunc,
       loadFunc = _ref.loadFunc,
@@ -52,9 +55,10 @@ function createLoadableVisibilityComponent(args, _ref) {
       loaded = false;
   var visibilityHandlers = [];
   var LoadableComponent = Loadable.apply(void 0, args);
+  var componentName = args == null ? void 0 : (_args$ = args[0]) == null ? void 0 : _args$.chunkName();
 
   function LoadableVisibilityComponent(props) {
-    var _args$;
+    var _args$2;
 
     var visibilityElementRef = (0, _react.useRef)();
 
@@ -66,6 +70,7 @@ function createLoadableVisibilityComponent(args, _ref) {
       if (visibilityElementRef.current) {
         intersectionObserver.unobserve(visibilityElementRef.current);
         trackedElements["delete"](visibilityElementRef.current);
+        visibleElements.set(componentName, true);
       }
 
       setVisible(true);
@@ -91,7 +96,7 @@ function createLoadableVisibilityComponent(args, _ref) {
       }
     }, [isVisible, visibilityElementRef.current]);
 
-    if (isVisible || args != null && (_args$ = args[1]) != null && _args$.ssr) {
+    if (isVisible || args != null && (_args$2 = args[1]) != null && _args$2.ssr || visibleElements.get(componentName)) {
       return /*#__PURE__*/_react["default"].createElement(LoadableComponent, props);
     }
 
