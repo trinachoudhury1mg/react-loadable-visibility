@@ -17,7 +17,7 @@ var trackedElements = new Map();
 var visibleElements = new Map();
 var options = {
   threshold: 0,
-  rootMargin: "0px 0px 100vh 0px"
+  rootMargin: "0px 0px 100% 0px"
 };
 
 function createIntersectionObserver(intersectionObserverOptions) {
