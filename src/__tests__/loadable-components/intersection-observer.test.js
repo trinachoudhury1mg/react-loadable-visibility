@@ -22,7 +22,9 @@ const loadableVisiblity = require("../../loadable-components");
 
 const loadedComponent = jest.fn(() => <div data-testid="loaded-component" />);
 
-const loader = () => Promise.resolve(loadedComponent);
+const chunkName = jest.fn(() => "dummyComponentKey")
+
+const loader = {requireAsync: () => Promise.resolve(loadedComponent), chunkName: chunkName}
 
 const opts = {
   fallback: () => <div data-testid="fallback" />
