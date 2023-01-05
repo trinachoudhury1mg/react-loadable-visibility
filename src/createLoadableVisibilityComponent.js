@@ -86,21 +86,19 @@ function createLoadableVisibilityComponent(
     }
 
     if (LoadingComponent || props.fallback) {
-      return (
-      <div ref={visibilityElementRef}>
-          {LoadingComponent
-            ? React.createElement(LoadingComponent, {
-                isLoading: true,
-                ...props
-              })
-            : props.fallback}
-      </div>
-      )
+        return (
+            <div ref={visibilityElementRef} data-testid="loader">
+                {LoadingComponent
+                    ? React.createElement(LoadingComponent, {
+                          isLoading: true,
+                          ...props,
+                      })
+                    : props.fallback}
+            </div>
+        );
     }
 
-    return (
-      <div ref={visibilityElementRef}/>
-    );
+    return <div ref={visibilityElementRef} data-testid="loader" />;
   }
 
   LoadableVisibilityComponent[preloadFunc] = () => {
