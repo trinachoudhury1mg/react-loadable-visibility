@@ -164,8 +164,10 @@ describe("the component loads for the second time", () => {
         });
         unmount();
     });
-    afterEach(() => {
-        cleanup();
+    afterAll(() => {
+        jest.clearAllMocks();
+        jest.resetModules();
+        globallyTrackedElements.length = 0;
     });
 
     test("it display the loaded-component and not the fallback after the component has been rendered and unmounted", async () => {
