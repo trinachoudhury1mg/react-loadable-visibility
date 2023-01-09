@@ -8,6 +8,7 @@ import {
     IntersectionObserver,
     makeElementsVisible,
     globallyTrackedElements,
+    globallyVisibleElements,
 } from "../../__mocks__/IntersectionObserver";
 
 global.IntersectionObserver = IntersectionObserver;
@@ -15,7 +16,6 @@ global.IntersectionObserver = IntersectionObserver;
 const loadedComponent = jest.fn(() => <div data-testid="loaded-component" />);
 // add a preload function to loadedComponent to load this component on demand
 loadedComponent.preload = jest.fn(() => <div data-testid="loaded-component" />);
-
 
 // add chunkName function to import function. It is used to generate keys for visibleElements map
 
@@ -140,5 +140,50 @@ describe("the component loads for the first time", () => {
         render(<Loader {...props} />);
         // Intersection observer will observe the component when it is mounted
         expect(globallyTrackedElements.length).toEqual(1);
+    });
+    test("displays the loadable component when ssr option is set to true", async () => {
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader, { ssr: true });
+
+        const { findByTestId } = render(<Loader {...props} />);
+
+        expect(await findByTestId("loaded-component")).toBeTruthy();
+    });
+});
+
+describe("the component loads for the second time", () => {
+    beforeEach(() => {
+        //  render, unmount and make the component visible before each test
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader);
+        const { unmount } = render(<Loader {...props} />);
+        act(() => {
+            makeElementsVisible();
+        });
+        unmount();
+    });
+    afterEach(() => {
+        cleanup();
+    });
+
+    test("it display the loaded-component and not the fallback after the component has been rendered and unmounted", async () => {
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader);
+
+        const { findByTestId, debug } = render(<Loader {...props} />);
+        expect(await findByTestId("loaded-component")).toBeTruthy();
+    });
+
+    test("intersection observer does not track the component once it has been rendered and unmmounted", async () => {
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader);
+
+        const { findByTestId, debug } = render(<Loader {...props} />);
+        expect(globallyTrackedElements.length).toEqual(0);
+        expect(globallyVisibleElements.length).not.toEqual(0);
     });
 });
