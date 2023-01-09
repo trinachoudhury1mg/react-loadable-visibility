@@ -29,7 +29,7 @@ const opts = {
     fallback: () => <div data-testid="fallback" />,
 };
 
-const props = { a: 1, b: 2 };
+const props = { a: 1, b: 2, dataTestId: "loader" };
 
 jest.doMock("@loadable/component", () => {
     return jest.fn(() => loadedComponent);
@@ -61,7 +61,7 @@ describe("the component loads for the first time", () => {
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader);
 
-        const { findByTestId, debug } = render(<Loader {...props} />);
+        const { findByTestId, debug } = render(<Loader {...props} dataTestId="loader" />);
 
         expect(loadedComponent).not.toHaveBeenCalled();
 
@@ -75,7 +75,7 @@ describe("the component loads for the first time", () => {
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader);
 
-        const { findByTestId, debug } = render(<Loader {...props} />);
+        const { findByTestId, debug } = render(<Loader {...props} dataTestId="loader" />);
 
         expect(loadedComponent).not.toHaveBeenCalled();
 
@@ -102,7 +102,7 @@ describe("the component loads for the first time", () => {
         const Loader = loadableVisiblity(loader);
 
         // Before preload has been called Loader will show a fallback
-        const { findByTestId } = render(<Loader {...props} />);
+        const { findByTestId } = render(<Loader {...props} dataTestId="loader" />);
 
         expect(await findByTestId("loader")).toBeTruthy();
         // call the preload function
@@ -118,7 +118,7 @@ describe("the component loads for the first time", () => {
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader);
 
-        const { findByTestId } = render(<Loader {...props} />);
+        const { findByTestId, debug } = render(<Loader {...props} dataTestId="loader" />);
         // Loader shows a fallback loader till the it becomes visible in the viewport
         expect(await findByTestId("loader")).toBeTruthy();
         // make the element visible in the viewport
@@ -137,7 +137,7 @@ describe("the component loads for the first time", () => {
         // Intersection observer does not attach visibility handlers to components until mounted
         expect(globallyTrackedElements.length).toEqual(0);
 
-        render(<Loader {...props} />);
+        render(<Loader {...props} dataTestId="loader" />);
         // Intersection observer will observe the component when it is mounted
         expect(globallyTrackedElements.length).toEqual(1);
     });
@@ -146,7 +146,7 @@ describe("the component loads for the first time", () => {
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader, { ssr: true });
 
-        const { findByTestId } = render(<Loader {...props} />);
+        const { findByTestId } = render(<Loader {...props} dataTestId="loader" />);
 
         expect(await findByTestId("loaded-component")).toBeTruthy();
     });
@@ -158,7 +158,7 @@ describe("the component loads for the second time", () => {
         const loadable = require("@loadable/component");
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader);
-        const { unmount } = render(<Loader {...props} />);
+        const { unmount } = render(<Loader {...props} dataTestId="loader" />);
         act(() => {
             makeElementsVisible();
         });
@@ -175,7 +175,7 @@ describe("the component loads for the second time", () => {
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader);
 
-        const { findByTestId, debug } = render(<Loader {...props} />);
+        const { findByTestId, debug } = render(<Loader {...props} dataTestId="loader" />);
         expect(await findByTestId("loaded-component")).toBeTruthy();
     });
 
@@ -184,7 +184,7 @@ describe("the component loads for the second time", () => {
         const loadableVisiblity = require("../../loadable-components");
         const Loader = loadableVisiblity(loader);
 
-        const { findByTestId, debug } = render(<Loader {...props} />);
+        const { findByTestId, debug } = render(<Loader {...props} dataTestId="loader" />);
         expect(globallyTrackedElements.length).toEqual(0);
         expect(globallyVisibleElements.length).not.toEqual(0);
     });

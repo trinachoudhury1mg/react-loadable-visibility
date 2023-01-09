@@ -85,7 +85,7 @@ function createLoadableVisibilityComponent(
 
         if (LoadingComponent || props.fallback) {
             return (
-                <div ref={visibilityElementRef} data-testid="loader">
+                <div ref={visibilityElementRef} data-testid={props?.dataTestId}>
                     {LoadingComponent
                         ? React.createElement(LoadingComponent, {
                               isLoading: true,
@@ -96,7 +96,7 @@ function createLoadableVisibilityComponent(
             );
         }
 
-        return <div ref={visibilityElementRef} data-testid="loader" />;
+        return <div ref={visibilityElementRef} data-testid={props?.dataTestId} />;
     }
 
     LoadableVisibilityComponent[preloadFunc] = () => {
