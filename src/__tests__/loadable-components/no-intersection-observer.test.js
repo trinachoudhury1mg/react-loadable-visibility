@@ -1,7 +1,6 @@
 const loadedComponent = jest.fn(() => <div data-testid="loaded-component" />);
-
+loadedComponent.preload = jest.fn(() => loadedComponent);
 jest.doMock("@loadable/component", () => {
-    loadedComponent.preload = jest.fn(() => loadedComponent);
     return jest.fn(() => loadedComponent);
 });
 const loadable = require("@loadable/component");
