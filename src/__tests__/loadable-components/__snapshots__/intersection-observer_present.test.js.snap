@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`match output on server and client match snapshot on client when fallback has been passed 1`] = `
+<div>
+  <div>
+    <div>
+      fallback
+    </div>
+  </div>
+</div>
+`;
+
+exports[`match output on server and client match snapshot on client when no fallback has been passed 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`match output on server and client match snapshot on server when fallback has been passed 1`] = `
+<div>
+  <div>
+    <div>
+      fallback
+    </div>
+  </div>
+</div>
+`;
+
+exports[`match output on server and client match snapshot on server when no fallback has been passed 1`] = `
+<div>
+  <div />
+</div>
+`;

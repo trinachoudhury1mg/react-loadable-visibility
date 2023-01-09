@@ -29,7 +29,8 @@ const opts = {
     fallback: () => <div data-testid="fallback" />,
 };
 
-const props = { a: 1, b: 2, dataTestId: "loader" };
+const props = { a: 1, b: 2 };
+const expectedProps = { a: 1, b: 2, dataTestId: "loader" };
 
 jest.doMock("@loadable/component", () => {
     return jest.fn(() => loadedComponent);
@@ -68,7 +69,7 @@ describe("the component loads for the first time", () => {
         act(() => makeElementsVisible("byRatio"));
 
         // The actual component is called only when it is visible in the viewport
-        expect(loadedComponent).toHaveBeenCalledWith(props, expect.anything());
+        expect(loadedComponent).toHaveBeenCalledWith(expectedProps, expect.anything());
     });
     test('calls "loadedComponent" when intersectionRatio equals 0 but isIntersecting is true', async () => {
         const loadable = require("@loadable/component");
@@ -81,7 +82,7 @@ describe("the component loads for the first time", () => {
 
         act(() => makeElementsVisible("byIntersecting"));
 
-        expect(loadedComponent).toHaveBeenCalledWith(props, expect.anything());
+        expect(loadedComponent).toHaveBeenCalledWith(expectedProps, expect.anything());
     });
 
     test(`preload calls "loadable" preload`, () => {
@@ -187,5 +188,52 @@ describe("the component loads for the second time", () => {
         const { findByTestId, debug } = render(<Loader {...props} dataTestId="loader" />);
         expect(globallyTrackedElements.length).toEqual(0);
         expect(globallyVisibleElements.length).not.toEqual(0);
+    });
+});
+
+describe("match output on server and client", () => {
+    beforeAll(() => {
+        jest.dontMock("@loadable/component");
+    });
+    beforeEach(() => {
+        jest.clearAllMocks();
+        jest.resetModules();
+        globallyTrackedElements.length = 0;
+        cleanup();
+    });
+    test("match snapshot on server when fallback has been passed", async () => {
+        global.window.IntersectionObserver = null;
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader, { ssr: false, fallback: <div>fallback</div> });
+        const { container, unmount } = render(<Loader {...props} />);
+        expect(container).toMatchSnapshot();
+    });
+
+    test("match snapshot on client when fallback has been passed", async () => {
+        global.window.IntersectionObserver = IntersectionObserver;
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader, { ssr: false, fallback: <div>fallback</div> });
+        const { container, unmount } = render(<Loader {...props} />);
+        expect(container).toMatchSnapshot();
+    });
+
+    test("match snapshot on server when no fallback has been passed", async () => {
+        global.window.IntersectionObserver = null;
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader, { ssr: false });
+        const { container, unmount } = render(<Loader {...props} />);
+        expect(container).toMatchSnapshot();
+    });
+
+    test("match snapshot on client when no fallback has been passed", async () => {
+        global.window.IntersectionObserver = IntersectionObserver;
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader, { ssr: false });
+        const { container, unmount } = render(<Loader {...props} />);
+        expect(container).toMatchSnapshot();
     });
 });
