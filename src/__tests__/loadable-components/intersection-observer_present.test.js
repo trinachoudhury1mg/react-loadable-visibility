@@ -191,7 +191,7 @@ describe("the component loads for the second time", () => {
     });
 });
 
-describe("match output on server and client", () => {
+describe("test hydration mismatches", () => {
     beforeAll(() => {
         jest.dontMock("@loadable/component");
     });
