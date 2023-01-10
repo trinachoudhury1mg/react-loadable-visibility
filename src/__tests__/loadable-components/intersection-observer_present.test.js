@@ -201,16 +201,16 @@ describe("test hydration mismatches: ", () => {
         globallyTrackedElements.length = 0;
         cleanup();
     });
-    test("match snapshot on server when fallback has been passed", async () => {
+    test("match snapshot on server when fallback has been passed via opts", async () => {
         global.window.IntersectionObserver = null;
         const loadable = require("@loadable/component");
         const loadableVisiblity = require("../../loadable-components");
-        const Loader = loadableVisiblity(loader, { ssr: false, fallback: <div>fallback</div> });
-        const { container, unmount } = render(<Loader {...props} />);
+        const Loader = loadableVisiblity(loader, { ssr: false });
+        const { container, unmount } = render(<Loader {...props} fallback={<div>fallback</div>} />);
         expect(container).toMatchSnapshot();
     });
 
-    test("match snapshot on client when fallback has been passed", async () => {
+    test("match snapshot on client when fallback has been passed via opts", async () => {
         global.window.IntersectionObserver = IntersectionObserver;
         const loadable = require("@loadable/component");
         const loadableVisiblity = require("../../loadable-components");
@@ -236,4 +236,21 @@ describe("test hydration mismatches: ", () => {
         const { container, unmount } = render(<Loader {...props} />);
         expect(container).toMatchSnapshot();
     });
+    test("match snapshot on server when fallback has been passed via props", async () => {
+        global.window.IntersectionObserver = null;
+        const loadable = require("@loadable/component");
+        const loadableVisiblity = require("../../loadable-components");
+        const Loader = loadableVisiblity(loader, { ssr: false });
+        const { container, unmount } = render(<Loader {...props} fallback={<div>fallback</div>} />);
+        expect(container).toMatchSnapshot();
+    });
+});
+
+test("match snapshot on client when fallback has been passed via props", async () => {
+    global.window.IntersectionObserver = IntersectionObserver;
+    const loadable = require("@loadable/component");
+    const loadableVisiblity = require("../../loadable-components");
+    const Loader = loadableVisiblity(loader, { ssr: false });
+    const { container, unmount } = render(<Loader {...props} fallback={<div>fallback</div>} />);
+    expect(container).toMatchSnapshot();
 });
