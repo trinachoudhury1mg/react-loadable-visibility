@@ -86,12 +86,12 @@ function createLoadableVisibilityComponent(
         if (LoadingComponent || props.fallback) {
             return (
                 <div ref={visibilityElementRef} data-testid={props?.dataTestId}>
-                    {LoadingComponent
-                        ? React.createElement(LoadingComponent, {
+                    {props.fallback
+                        ? props.fallback
+                        : React.createElement(LoadingComponent, {
                               isLoading: true,
                               ...props,
-                          })
-                        : props.fallback}
+                          })}
                 </div>
             );
         }
