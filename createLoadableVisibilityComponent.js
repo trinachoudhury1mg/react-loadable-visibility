@@ -104,9 +104,9 @@ function createLoadableVisibilityComponent(args, _ref) {
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: visibilityElementRef,
         "data-testid": props == null ? void 0 : props.dataTestId
-      }, LoadingComponent ? /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
+      }, props.fallback ? props.fallback : /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
         isLoading: true
-      }, props)) : props.fallback);
+      }, props)));
     }
 
     return /*#__PURE__*/_react["default"].createElement("div", {
