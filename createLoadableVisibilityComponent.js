@@ -102,14 +102,16 @@ function createLoadableVisibilityComponent(args, _ref) {
 
     if (LoadingComponent || props.fallback) {
       return /*#__PURE__*/_react["default"].createElement("div", {
-        ref: visibilityElementRef
+        ref: visibilityElementRef,
+        "data-testid": props == null ? void 0 : props.dataTestId
       }, LoadingComponent ? /*#__PURE__*/_react["default"].createElement(LoadingComponent, _extends({
         isLoading: true
       }, props)) : props.fallback);
     }
 
     return /*#__PURE__*/_react["default"].createElement("div", {
-      ref: visibilityElementRef
+      ref: visibilityElementRef,
+      "data-testid": props == null ? void 0 : props.dataTestId
     });
   }
 

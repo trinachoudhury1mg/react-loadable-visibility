@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`match snapshot on client when fallback has been passed via props 1`] = `
+<div>
+  <div>
+    <div>
+      fallback
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test hydration mismatches:  match snapshot on client when fallback has been passed via opts 1`] = `
+<div>
+  <div>
+    <div>
+      fallback
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test hydration mismatches:  match snapshot on client when no fallback has been passed 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`test hydration mismatches:  match snapshot on server when fallback has been passed via opts 1`] = `
+<div>
+  <div>
+    <div>
+      fallback
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test hydration mismatches:  match snapshot on server when fallback has been passed via props 1`] = `
+<div>
+  <div>
+    <div>
+      fallback
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test hydration mismatches:  match snapshot on server when no fallback has been passed 1`] = `
+<div>
+  <div />
+</div>
+`;
