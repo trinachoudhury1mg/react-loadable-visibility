@@ -1,6 +1,6 @@
-const { cosmiconfigSync } = require("react-loadable-visibility");
+const { cosmiconfigSync } = require("cosmiconfig");
 
-const explorerSync = cosmiconfigSync("loadableConfig.json");
+const explorerSync = cosmiconfigSync("react-loadable-visibility");
 
 const searchedFor = explorerSync.search();
 // const loaded = explorerSync.load(pathToConfig);
