@@ -28,6 +28,7 @@
         "react-dom": "^18.2.0"
     },
     "dependencies": {
+        "cosmiconfig": "^8.0.0",
         "jest-environment-jsdom": "^29.3.1"
     }
 }
