@@ -10,7 +10,7 @@ import Loading from "./my-loading-component";
 
 const LoadableComponent = loadable(() => import("./my-component"), {
   fallback: <Loading />,
-  ssr:false,
+  ssr: false,
 },
 {
   rootMargin: "0px,0px,100%,0px",
@@ -41,7 +41,7 @@ const IntersectionObserverOptions = {
 
 const LoadableComponent = loadable(() => import("./my-component"), {
   fallback: <Loading />,
-  ssr:false,
+  ssr: false,
 },
 IntersectionObserverOptions,
 );
@@ -68,7 +68,7 @@ Otherwise if the `IntersectionObserver` API is not available, we will revert bac
 
 # Why do I want this?
 
-`@loadable/component` is a fantastic higher level components to load additional modules once they are mounted on your page. It's great for keeping your bundle size small and pulling in a larger payload when the required components are part of your tree.
+`@loadable/component` is a fantastic higher level component to load additional modules once they are mounted on the root of the Intersection Observer. It's great for keeping your bundle size small and pulling in a larger payload when the required components are part of your tree.
 
 However it will not account for the content that's currently visible on your page, and only load what's actually visible to the end user. If you have a long page and are loading the entire content of that page for the user, even though they may only be able to see the content in the viewport, it can be wasteful and especially detrimental in a mobile context.
 
