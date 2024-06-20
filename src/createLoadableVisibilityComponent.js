@@ -79,37 +79,25 @@ function createLoadableVisibilityComponent(
       }
     }, [isVisible, visibilityElementRef.current]);
 
-    if (isVisible) {
+    if (isVisible|| args?.[1]?.ssr) {
       return <LoadableComponent {...props} />;
     }
 
     if (LoadingComponent || props.fallback) {
       return (
-        <div
-          style={{
-            display: "inline-block",
-            minHeight: "1px",
-            minWidth: "1px"
-          }}
-          {...props}
-          ref={visibilityElementRef}
-        >
+      <div ref={visibilityElementRef}>
           {LoadingComponent
             ? React.createElement(LoadingComponent, {
                 isLoading: true,
                 ...props
               })
             : props.fallback}
-        </div>
-      );
+      </div>
+      )
     }
 
     return (
-      <div
-        style={{ display: "inline-block", minHeight: "1px", minWidth: "1px" }}
-        {...props}
-        ref={visibilityElementRef}
-      />
+      <div ref={visibilityElementRef}/>
     );
   }
 
