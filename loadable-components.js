@@ -14,6 +14,8 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function loadableVisiblity(load, opts, intersectionObserverOptions) {
   if (opts === void 0) {
     opts = {};
@@ -30,7 +32,13 @@ function loadableVisiblity(load, opts, intersectionObserverOptions) {
       intersectionObserverOptions: intersectionObserverOptions
     });
   } else {
-    return (0, _component["default"])(load, opts);
+    var _opts, _opts2;
+
+    var newOpts = _extends({}, opts, {
+      fallback: (_opts = opts) != null && _opts.fallback ? /*#__PURE__*/_react["default"].createElement("div", null, (_opts2 = opts) == null ? void 0 : _opts2.fallback) : /*#__PURE__*/_react["default"].createElement("div", null)
+    });
+
+    return (0, _component["default"])(load, newOpts);
   }
 }
 

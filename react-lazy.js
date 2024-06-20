@@ -2,9 +2,7 @@
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _reactLoadable = _interopRequireDefault(require("react-loadable"));
-
-var _createLoadableVisibilityComponent = _interopRequireDefault(require("./createLoadableVisibilityComponent"));
+var _createLazyVisibiltyComponents = _interopRequireDefault(require("./createLazyVisibiltyComponents"));
 
 var _capacities = require("./capacities");
 
@@ -14,29 +12,32 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function LoadableVisibility(opts) {
+function createLazy(load, fallback) {
+  var LazyComponent = /*#__PURE__*/(0, _react.lazy)(load);
+
+  function ComponentLazy(props) {
+    return /*#__PURE__*/_react["default"].createElement(_react.Suspense, {
+      fallback: /*#__PURE__*/_react["default"].createElement("div", null, "fallback")
+    }, /*#__PURE__*/_react["default"].createElement(LazyComponent, props));
+  }
+
+  return ComponentLazy;
+}
+
+function lazyVisiblity(load, opts, intersectionObserverOptions) {
+  if (opts === void 0) {
+    opts = {};
+  }
+
   if (_capacities.IntersectionObserver) {
-    return (0, _createLoadableVisibilityComponent["default"])([opts], {
-      Loadable: _reactLoadable["default"],
-      preloadFunc: 'preload',
-      LoadingComponent: opts.loading
-    });
+    var _opts, _opts2, _createLazyVisibiltyC;
+
+    return (0, _createLazyVisibiltyComponents["default"])(load, (_createLazyVisibiltyC = {
+      fallback: opts.fallback
+    }, _createLazyVisibiltyC["fallback"] = (_opts = opts) != null && _opts.fallback ? /*#__PURE__*/_react["default"].createElement("div", null, (_opts2 = opts) == null ? void 0 : _opts2.fallback) : /*#__PURE__*/_react["default"].createElement("div", null), _createLazyVisibiltyC.intersectionObserverOptions = intersectionObserverOptions, _createLazyVisibiltyC));
   } else {
-    return (0, _reactLoadable["default"])(opts);
+    return createLazy(load, opts.fallback);
   }
 }
 
-function LoadableVisibilityMap(opts) {
-  if (_capacities.IntersectionObserver) {
-    return (0, _createLoadableVisibilityComponent["default"])([opts], {
-      Loadable: _reactLoadable["default"].Map,
-      preloadFunc: 'preload',
-      LoadingComponent: opts.loading
-    });
-  } else {
-    return _reactLoadable["default"].Map(opts);
-  }
-}
-
-LoadableVisibility.Map = LoadableVisibilityMap;
-module.exports = LoadableVisibility;
+module.exports = lazyVisiblity;

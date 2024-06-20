@@ -36,10 +36,8 @@ function createIntersectionObserver(intersectionObserverOptions) {
 
 var intersectionObserver = createIntersectionObserver(options);
 
-function createLoadableVisibilityComponent(args, _ref) {
-  var Loadable = _ref.Loadable,
-      preloadFunc = _ref.preloadFunc,
-      loadFunc = _ref.loadFunc,
+function createLazyVisibiltyComponents(load, _ref) {
+  var fallback = _ref.fallback,
       LoadingComponent = _ref.LoadingComponent,
       intersectionObserverOptions = _ref.intersectionObserverOptions;
 
@@ -51,11 +49,9 @@ function createLoadableVisibilityComponent(args, _ref) {
   var preloaded = false,
       loaded = false;
   var visibilityHandlers = [];
-  var LoadableComponent = Loadable.apply(void 0, args);
+  var LazyComponent = /*#__PURE__*/(0, _react.lazy)(load);
 
-  function LoadableVisibilityComponent(props) {
-    var _args$;
-
+  function LazyVisibilityComponent(props) {
     var visibilityElementRef = (0, _react.useRef)();
 
     var _useState = (0, _react.useState)(preloaded),
@@ -91,8 +87,10 @@ function createLoadableVisibilityComponent(args, _ref) {
       }
     }, [isVisible, visibilityElementRef.current]);
 
-    if (isVisible || args != null && (_args$ = args[1]) != null && _args$.ssr) {
-      return /*#__PURE__*/_react["default"].createElement(LoadableComponent, props);
+    if (isVisible) {
+      return /*#__PURE__*/_react["default"].createElement(_react.Suspense, {
+        fallback: fallback
+      }, /*#__PURE__*/_react["default"].createElement(LazyComponent, props));
     }
 
     if (LoadingComponent || props.fallback) {
@@ -108,30 +106,8 @@ function createLoadableVisibilityComponent(args, _ref) {
     });
   }
 
-  LoadableVisibilityComponent[preloadFunc] = function () {
-    if (!preloaded) {
-      preloaded = true;
-      visibilityHandlers.forEach(function (handler) {
-        return handler();
-      });
-    }
-
-    return LoadableComponent[preloadFunc]();
-  };
-
-  LoadableVisibilityComponent[loadFunc] = function () {
-    if (!loaded) {
-      loaded = true;
-      visibilityHandlers.forEach(function (handler) {
-        return handler();
-      });
-    }
-
-    return LoadableComponent[loadFunc]();
-  };
-
-  return LoadableVisibilityComponent;
+  return LazyVisibilityComponent;
 }
 
-var _default = createLoadableVisibilityComponent;
+var _default = createLazyVisibiltyComponents;
 exports["default"] = _default;

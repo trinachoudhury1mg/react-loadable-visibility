@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {lazy, Suspense, useEffect, useState, useRef } from "react";
 import { IntersectionObserver } from "./capacities";
 
 const trackedElements = new Map();
@@ -28,9 +28,9 @@ function createIntersectionObserver(intersectionObserverOptions) {
 // create an intersection observer with the default options
 let intersectionObserver = createIntersectionObserver(options);
 
-function createLoadableVisibilityComponent(
-  args,
-  { Loadable, preloadFunc,loadFunc, LoadingComponent, intersectionObserverOptions }
+function createLazyVisibiltyComponents(
+  load,
+  {fallback,LoadingComponent, intersectionObserverOptions }
 ) {
   // if options have been passed to the intersection observer a new instance of intersection observer is created using these passed options else the same instance of intersectin observer will observe all the target elements.
   if (typeof intersectionObserverOptions === "object") {
@@ -42,9 +42,9 @@ function createLoadableVisibilityComponent(
     loaded = false;
   const visibilityHandlers = [];
 
-  const LoadableComponent = Loadable(...args);
+  const LazyComponent = lazy(load);
 
-  function LoadableVisibilityComponent(props) {
+  function LazyVisibilityComponent(props) {
     const visibilityElementRef = useRef();
     const [isVisible, setVisible] = useState(preloaded);
 
@@ -79,8 +79,8 @@ function createLoadableVisibilityComponent(
       }
     }, [isVisible, visibilityElementRef.current]);
 
-    if (isVisible|| args?.[1]?.ssr) {
-      return <LoadableComponent {...props} />;
+    if (isVisible) {
+      return <Suspense fallback={fallback}><LazyComponent {...props} /></Suspense>
     }
 
     if (LoadingComponent || props.fallback) {
@@ -100,25 +100,11 @@ function createLoadableVisibilityComponent(
       <div ref={visibilityElementRef}/>
     );
   }
+  
 
-  LoadableVisibilityComponent[preloadFunc] = () => {
-    if (!preloaded) {
-      preloaded = true;
-      visibilityHandlers.forEach(handler => handler());
-    }
+  
 
-    return LoadableComponent[preloadFunc]();
-  };
-
-   LoadableVisibilityComponent[loadFunc] = () => {
-     if (!loaded) {
-       loaded = true;
-       visibilityHandlers.forEach((handler) => handler());
-     }
-     return LoadableComponent[loadFunc]();
-   };
-
-  return LoadableVisibilityComponent;
+  return LazyVisibilityComponent;
 }
 
-export default createLoadableVisibilityComponent;
+export default createLazyVisibiltyComponents;
